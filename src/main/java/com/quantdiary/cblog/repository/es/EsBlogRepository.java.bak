@@ -1,0 +1,13 @@
+package com.quantdiary.cblog.repository.es;
+
+import com.quantdiary.cblog.domain.es.EsBlog;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+
+public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String> {
+
+    Page<EsBlog> findDistinctByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+
+    EsBlog findByBlogId(Long blogId);
+}

@@ -1,0 +1,1 @@
+create database blog default charset uft8 collate utf8_general_ci;

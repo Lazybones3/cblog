@@ -1,0 +1,65 @@
+package com.quantdiary.cblog.domain.es;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldIndex;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+
+@Document(indexName = "blog", type = "blog")
+@XmlRootElement
+public class EsBlog implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    private String id;
+    @Field(index = FieldIndex.not_analyzed)
+    private Long blogId;
+
+    private String title;
+
+    private String content;
+
+    protected EsBlog() {  // JPA 的规范要求无参构造函数；设为 protected 防止直接使用
+    }
+
+    public EsBlog(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Long getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(Long blogId) {
+        this.blogId = blogId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+}

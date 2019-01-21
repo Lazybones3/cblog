@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagination</title>
+</head>
+<body>
+<nav th:fragment="page" th:if="${totalPages gt 0}" th:object="${page}">
+  <!-- 处理页数小于等于7 的情况 -->
+  <ul th:if="${totalPages le 7}" class="pagination pagination-sm justify-content-center">
+    <li class="page-item" th:classappend="${page.isFirst()} ? 'disabled' : ''">
+      <a class="page-link tbpage-item" href="javascript:void(0);" th:attr="pageIndex=${page.getNumber()} - 1">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+        th:classappend="${(page.getNumber() + 1) eq i} ? 'active' : ''">
+      <a class="page-link tbpage-item" href="javascript:void(0);" th:attr="pageIndex=${i} - 1">[[${i}]]</a>
+    </li>
+    <li class="page-item" th:classappend="${page.isLast()} ? 'disabled' : ''">
+      <a class="page-link tbpage-item" href="javascript:void(0);" th:attr="pageIndex=${page.getNumber()} + 1">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">共[[${totalPages}]]页</a></li>
+  </ul>
+</nav>
+</body>
+</html>

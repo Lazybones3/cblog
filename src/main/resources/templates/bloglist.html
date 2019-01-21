@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Cblog">
+  <meta name="author" content="Ricardo">
+  <!-- CSRF -->
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <!-- default header name is X-CSRF-TOKEN -->
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/toastr.min.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<br>
+<main role="main" class="container blog-content-container">
+  <div class="row">
+    <div class="col-md-8" id="mainContainer">
+      <div id="mainContainerRepleace">
+        <ul class="nav nav-tabs mr-auto">
+          <li class="nav-item">
+            <a th:attr="status='PUBLIC'" href="javascript:void(0);" class="nav-link blog-nav-item">公开</a>
+          </li>
+          <li class="nav-item">
+            <a th:attr="status='SECRET'" href="javascript:void(0);" class="nav-link blog-nav-item">私密</a>
+          </li>
+          <li class="nav-item">
+            <a th:attr="status='DELETED'" href="javascript:void(0);" class="nav-link blog-nav-item">草稿箱</a>
+          </li>
+        </ul>
+
+        <div class="card" th:each="blog : ${blogList}">
+          <div class="card-body">
+            <a th:href="'/u/'+${blog.user.username}+'/blogs/'+${blog.id}" th:text="${blog.title}"></a>
+            <small th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}" class="text-muted"></small>
+            <div class="float-right">
+              <a th:attr="blogId=${blog.id}" th:text="${status} eq 'PUBLIC' ? '设为私密' : '恢复'"
+                 href="javascript:void(0);" class="blog-status-blog badge badge-warning badge-pill">设置</a>
+              <a th:href="'/u/'+${blog.user.username}+'/blogs/edit/'+${blog.id}" class="badge badge-success badge-pill">编辑</a>
+              <a th:attr="blogId=${blog.id}" href="javascript:void(0);" class="blog-delete-blog badge badge-danger badge-pill">删除</a>
+            </div>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <div th:replace="~{fragments/page :: page}">...</div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div th:replace="~{fragments/aside :: aside}"></div>
+    </div>
+
+  </div>
+</main>
+
+<script th:inline="javascript">
+    var username = [[${user.username}]];
+</script>
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/toastr.min.js}"></script>
+<script th:src="@{/js/pagination.js}"></script>
+<script th:src="@{/js/bloglist.js}"></script>
+</body>
+</html>
